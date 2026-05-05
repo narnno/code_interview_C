@@ -20,6 +20,10 @@
 #include "main.h"
 #include "string.h"
 
+#include <VoltageSensor.hpp>
+#include <AdcPeripheral.hpp>
+#include <VoltageSensorManager.hpp>
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -117,7 +121,22 @@ int main(void)
   MX_ETH_Init();
   MX_USART3_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
+
   /* USER CODE BEGIN 2 */
+  VoltageSensorManager sensorManager;
+  AdcPeripheral adc;
+  VoltageSensor sensor1(10, 0.1f, adc);
+  VoltageSensor sensor2(15, 0.6f, adc);
+  VoltageSensor sensor3(10, 1.2f, adc);
+  VoltageSensor sensor4(15, 4.5f, adc);
+  VoltageSensor sensor5(10, 0.01f, adc);
+  sensorManager.addSensor(sensor1);
+  sensorManager.addSensor(sensor2);
+  sensorManager.addSensor(sensor3);
+  sensorManager.addSensor(sensor4);
+  sensorManager.addSensor(sensor5);
+
+  float averageVoltage = sensorManager.computeAverageVoltage();
 
   /* USER CODE END 2 */
 
