@@ -20,9 +20,9 @@
 #include "main.h"
 #include "string.h"
 
-#include <VoltageSensor.hpp>
-#include <AdcPeripheral.hpp>
-#include <VoltageSensorManager.hpp>
+#include "AdcPeripheral.h"
+#include "VoltageSensor.h"
+#include "VoltageSensorManager.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -125,18 +125,29 @@ int main(void)
   /* USER CODE BEGIN 2 */
   VoltageSensorManager sensorManager;
   AdcPeripheral adc;
-  VoltageSensor sensor1(10, 0.1f, adc);
-  VoltageSensor sensor2(15, 0.6f, adc);
-  VoltageSensor sensor3(10, 1.2f, adc);
-  VoltageSensor sensor4(15, 4.5f, adc);
-  VoltageSensor sensor5(10, 0.01f, adc);
-  sensorManager.addSensor(sensor1);
-  sensorManager.addSensor(sensor2);
-  sensorManager.addSensor(sensor3);
-  sensorManager.addSensor(sensor4);
-  sensorManager.addSensor(sensor5);
+  VoltageSensor sensor1;
+  VoltageSensor sensor2;
+  VoltageSensor sensor3;
+  VoltageSensor sensor4;
+  VoltageSensor sensor5;
 
-  float averageVoltage = sensorManager.computeAverageVoltage();
+  VoltageSensorManager_init(&sensorManager);
+  AdcPeripheral_init(&adc);
+
+  VoltageSensor_init(&sensor1, 10, 0.1f, &adc);
+  VoltageSensor_init(&sensor2, 15, 0.6f, &adc);
+  VoltageSensor_init(&sensor3, 10, 1.2f, &adc);
+  VoltageSensor_init(&sensor4, 15, 4.5f, &adc);
+  VoltageSensor_init(&sensor5, 10, 0.01f, &adc);
+
+  (void)VoltageSensorManager_addSensor(&sensorManager, &sensor1);
+  (void)VoltageSensorManager_addSensor(&sensorManager, &sensor2);
+  (void)VoltageSensorManager_addSensor(&sensorManager, &sensor3);
+  (void)VoltageSensorManager_addSensor(&sensorManager, &sensor4);
+  (void)VoltageSensorManager_addSensor(&sensorManager, &sensor5);
+
+  float averageVoltage = VoltageSensorManager_computeAverageVoltage(&sensorManager);
+  (void)averageVoltage;
 
   /* USER CODE END 2 */
 
